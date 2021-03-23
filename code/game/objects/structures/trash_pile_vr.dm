@@ -181,6 +181,7 @@
 					prob(2);/obj/item/clothing/shoes/galoshes,
 					prob(2);/obj/item/clothing/under/pants/camo,
 					prob(2);/obj/item/clothing/under/syndicate/tacticool,
+					prob(2);/obj/item/clothing/under/hyperfiber,
 					prob(2);/obj/item/device/camera,
 					prob(2);/obj/item/device/flashlight/flare,
 					prob(2);/obj/item/device/flashlight/glowstick,
@@ -221,7 +222,8 @@
 					prob(1);/obj/item/weapon/spacecash/c50,
 					prob(1);/obj/item/weapon/storage/backpack/dufflebag/syndie,
 					prob(1);/obj/item/weapon/storage/box/cups,
-					prob(1);/obj/item/pizzavoucher)
+					prob(1);/obj/item/pizzavoucher,
+					prob(1);/obj/item/weapon/grenade/spawnergrenade/clustaur)// CHOMPStation edit
 
 	var/obj/item/I = new path()
 	return I
@@ -241,6 +243,7 @@
 					prob(2);/obj/item/weapon/handcuffs/legcuffs/fuzzy,
 					prob(2);/obj/item/weapon/storage/box/syndie_kit/spy,
 					prob(2);/obj/item/weapon/grenade/anti_photon,
+					prob(2);/obj/item/clothing/under/hyperfiber/bluespace,
 					prob(1);/obj/item/clothing/suit/storage/vest/heavy/merc,
 					prob(1);/obj/item/device/nif/bad,
 					prob(1);/obj/item/device/radio_jammer,

@@ -1,7 +1,8 @@
 /mob/living/simple_mob/vore/leopardmander
 	name = "leopardmander"
 	desc = "A huge salamander-like drake. They are best known for their rarity, their voracity, their very potent paralyzing venom, and their healing stomach. This one is white."
-	tt_desc = "Draconis Va'aen"
+	catalogue_data = list(/datum/category_item/catalogue/fauna/leopardmander)
+	tt_desc = "S Draconis uncia"
 	icon = 'icons/mob/vore128x64_ch.dmi'
 	icon_dead = "leopardmander-dead"
 	icon_living = "leopardmander"
@@ -63,11 +64,11 @@
 	movement_cooldown = 2
 
 /mob/living/simple_mob/vore/leopardmander/New() //Set to max nutrition on spawn since heal belly drains nutrition to work.
-	..() 
+	..()
 	src.adjust_nutrition(src.max_nutrition)
 
 /mob/living/simple_mob/vore/leopardmander/Initialize()
-	..() 
+	..()
 	src.adjust_nutrition(src.max_nutrition)
 
 /mob/living/simple_mob/vore/leopardmander/apply_melee_effects(atom/A)
@@ -77,6 +78,7 @@
 			var/target_zone = pick(BP_TORSO,BP_TORSO,BP_TORSO,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_HEAD)
 			if(L.can_inject(src, null, target_zone))
 				last_inject = world.time
+				L.init_vore()
 				if(!L.allowmobvore) //If we can't eat them, stop mauling them.
 					ai_holder.lose_target() //Call this first so the attacks stop if the reagent proc runtimes.
 					L.reagents.add_reagent("bicaridine", venom_dose) //If we can't eat them, give them some bicar to compensate for no heal belly.
@@ -85,7 +87,7 @@
 				L.reagents.add_reagent("myelamine", venom_dose)
 				L.reagents.add_reagent("osteodaxon", venom_dose)
 
-	
+
 
 /mob/living/simple_mob/vore/leopardmander
 
@@ -159,7 +161,7 @@
 
 	glow_toggle = TRUE //Glow!
 	glow_range = 2
-	glow_color = "#FF006E" 
+	glow_color = "#FF006E"
 	glow_intensity = 1.5
 
 /mob/living/simple_mob/vore/leopardmander/exotic/proc/toggle_glow()
@@ -170,7 +172,7 @@
 	glow_toggle = !glow_toggle
 
 /mob/living/simple_mob/vore/leopardmander/exotic/New()
-	..() 
+	..()
 	verbs |= /mob/living/simple_mob/vore/leopardmander/exotic/proc/toggle_glow
 
 /mob/living/simple_mob/vore/leopardmander/exotic/init_vore()
@@ -204,4 +206,4 @@
 /obj/random/mob/leopardmander/item_to_spawn() //Random map spawner
 	return pick(prob(89);/mob/living/simple_mob/vore/leopardmander,
 		prob(10);/mob/living/simple_mob/vore/leopardmander/blue,
-		prob(1);/mob/living/simple_mob/vore/leopardmander/exotic,) 
+		prob(1);/mob/living/simple_mob/vore/leopardmander/exotic,)

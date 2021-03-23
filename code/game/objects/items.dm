@@ -104,8 +104,10 @@
 
 	var/tip_timer // reference to timer id for a tooltip we might open soon
 
-/obj/item/New()
-	..()
+/obj/item/Initialize(mapload)
+	. = ..()
+	if(islist(origin_tech))
+		origin_tech = typelist(NAMEOF(src, origin_tech), origin_tech)
 	if(embed_chance < 0)
 		if(sharp)
 			embed_chance = max(5, round(force/w_class))
@@ -352,6 +354,10 @@
 			playsound(src, drop_sound, 30)
 	else if(slot == slot_l_hand || slot == slot_r_hand)
 		playsound(src, pickup_sound, 20, preference = /datum/client_preference/pickup_sounds)
+	return
+
+// As above but for items being equipped to an active module on a robot.
+/obj/item/proc/equipped_robot(var/mob/user)
 	return
 
 //Defines which slots correspond to which slot flags
@@ -610,9 +616,6 @@ var/list/global/slot_flags_enumeration = list(
 	. = ..()
 	if(blood_overlay)
 		overlays.Remove(blood_overlay)
-	if(istype(src, /obj/item/clothing/gloves))
-		var/obj/item/clothing/gloves/G = src
-		G.transfer_blood = 0
 
 /obj/item/reveal_blood()
 	if(was_bloodied && !fluorescent)
@@ -789,7 +792,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	drop_sound = 'sound/items/drop/device.ogg'
 
 //Worn icon generation for on-mob sprites
-/obj/item/proc/make_worn_icon(var/body_type,var/slot_name,var/inhands,var/default_icon,var/default_layer,var/icon/clip_mask = null) //VOREStation edit - add 'clip mask' argument.
+/obj/item/proc/make_worn_icon(var/body_type,var/slot_name,var/inhands,var/default_icon,var/default_layer,var/icon/clip_mask = null)
 	//Get the required information about the base icon
 	var/icon/icon2use = get_worn_icon_file(body_type = body_type, slot_name = slot_name, default_icon = default_icon, inhands = inhands)
 	var/state2use = get_worn_icon_state(slot_name = slot_name)
@@ -817,6 +820,9 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	standing.color = color
 	standing.layer = layer2use
 	if(istype(clip_mask)) //VOREStation Edit - For taur bodies/tails clipping off parts of uniforms and suits.
+		standing.filters += filter(type = "alpha", icon = clip_mask)
+
+	if(istype(clip_mask)) //For taur bodies/tails clipping off parts of uniforms and suits.
 		standing.filters += filter(type = "alpha", icon = clip_mask)
 
 	//Apply any special features

@@ -54,7 +54,7 @@
 /mob/living/simple_mob/Destroy()
 	release_vore_contents()
 	prey_excludes.Cut()
-	. = ..()
+	return ..()
 
 //For all those ID-having mobs
 /mob/living/simple_mob/GetIdCard()
@@ -86,6 +86,8 @@
 			icon_state = "[icon_rest]-[vore_fullness]"
 
 /mob/living/simple_mob/proc/will_eat(var/mob/living/M)
+	M.init_vore()
+	init_vore()
 	if(client) //You do this yourself, dick!
 		//ai_log("vr/wont eat [M] because we're player-controlled", 3) //VORESTATION AI TEMPORARY REMOVAL
 		return 0
@@ -194,10 +196,6 @@
 	if(!vore_active || no_vore)
 		return
 
-	if(!IsAdvancedToolUser())
-		verbs |= /mob/living/simple_mob/proc/animal_nom
-		verbs |= /mob/living/proc/shred_limb
-
 	if(LAZYLEN(vore_organs))
 		return
 
@@ -279,7 +277,7 @@
 
 // Riding
 /datum/riding/simple_mob
-	keytype = /obj/item/weapon/material/twohanded/fluff/riding_crop // Crack!
+	keytype = /obj/item/weapon/material/twohanded/riding_crop // Crack!
 	nonhuman_key_exemption = FALSE	// If true, nonhumans who can't hold keys don't need them, like borgs and simplemobs.
 	key_name = "a riding crop"		// What the 'keys' for the thing being rided on would be called.
 	only_one_driver = TRUE			// If true, only the person in 'front' (first on list of riding mobs) can drive.
