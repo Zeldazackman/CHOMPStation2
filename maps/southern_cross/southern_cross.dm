@@ -6,6 +6,7 @@
 	#include "southern_cross_defines.dm"
 	#include "southern_cross_elevator.dm"
 	#include "southern_cross_events.dm"
+	#include "southern_cross_overrides.dm"
 	#include "southern_cross_presets.dm"
 	#include "southern_cross_shuttles.dm"
 	#include "southern_cross_shuttles_ch.dm"
@@ -17,7 +18,6 @@
 	#include "shuttles/ert.dm"
 
 	#include "loadout/loadout_accessories.dm"
-	#include "loadout/loadout_head.dm"
 	#include "loadout/loadout_suit.dm"
 	#include "loadout/loadout_uniform.dm"
 
@@ -35,6 +35,7 @@
 	#include "structures/closets/security.dm"
 	#include "turfs/outdoors.dm"
 	#include "overmap/sectors.dm"
+	#include "events/wildlife_encounter.dm"
 
 	//CHOMPStation Edit Start TFF 25/3/20 - Station level map z-levels separated into 3 distinct files to work with MapDiffBot. All other files renamed accordingly.
 	#include "southern_cross-1.dmm"
@@ -48,7 +49,7 @@
 	#include "southern_cross-9.dmm"
 	#include "southern_cross-10.dmm"
 	//CHOMPStation Edit End
-//	#include "southern_cross-casino.dmm" //CHOMPedit: Disabled to save resources and loaded in during events - Jack
+	//#include "southern_cross-casino.dmm" //CHOMPedit: Disabled to save resources and loaded in during events - Jack
 
 	#include "submaps/_southern_cross_submaps.dm"
 

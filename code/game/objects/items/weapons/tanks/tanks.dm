@@ -8,7 +8,7 @@ var/list/global/tank_gauge_cache = list()
 	name = "tank"
 	icon = 'icons/obj/tank.dmi'
 	sprite_sheets = list(
-		SPECIES_TESHARI = 'icons/mob/species/seromi/back.dmi'
+		SPECIES_TESHARI = 'icons/mob/species/teshari/back.dmi'
 		)
 	drop_sound = 'sound/items/drop/gascan.ogg'
 	pickup_sound = 'sound/items/pickup/gascan.ogg'
@@ -668,6 +668,6 @@ var/list/global/tank_gauge_cache = list()
 
 /obj/item/device/tankassemblyproxy/Moved(old_loc, direction, forced)
 	if(isturf(old_loc))
-		unsense_proximity(callback = .HasProximity, center = old_loc)
+		unsense_proximity(callback = /atom/proc/HasProximity, center = old_loc)
 	if(isturf(loc))
-		sense_proximity(callback = .HasProximity)
+		sense_proximity(callback = /atom/proc/HasProximity)

@@ -120,9 +120,6 @@
 	tgui_interact(user)
 	..()
 
-/obj/proc/interact(mob/user)
-	return
-
 /mob/proc/unset_machine()
 	machine?.remove_visual(src)
 	src.machine = null
@@ -163,9 +160,6 @@
 	return
 
 /obj/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
-	return
-
-/obj/proc/get_cell()
 	return
 
 // Used to mark a turf as containing objects that are dangerous to step onto.
