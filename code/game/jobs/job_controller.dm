@@ -664,8 +664,6 @@ var/global/datum/controller/occupations/job_master
 				if(!isliving(V.mob))
 					continue
 				var/mob/living/M = V.mob
-				if(M.stat == UNCONSCIOUS || M.stat == DEAD || M.client.is_afk(10 MINUTES))
-					continue
 				if(!M.latejoin_vore)
 					continue
 				if(!(M.z in using_map.vorespawn_levels))
@@ -691,19 +689,9 @@ var/global/datum/controller/occupations/job_master
 				if(!vore_spawn_gut)
 					return
 				to_chat(C, "<span class='warning'>[pred] has received your spawn request. Please wait.</span>")
-				log_admin("[key_name(C)] has requested to vore spawn into [key_name(pred)]")
-				message_admins("[key_name(C)] has requested to vore spawn into [key_name(pred)]")
 
-				var/confirm = alert(pred, "[C.prefs.real_name] is attempting to spawn into your [vore_spawn_gut]. Let them?", "Confirm", "No", "Yes")
-				if(confirm != "Yes")
-					to_chat(C, "<span class='warning'>[pred] has declined your spawn request.</span>")
-					return
 				if(!vore_spawn_gut || QDELETED(vore_spawn_gut))
 					to_chat(C, "<span class='warning'>Somehow, the belly you were trying to enter no longer exists.</span>")
-					return
-				if(pred.stat == UNCONSCIOUS || pred.stat == DEAD)
-					to_chat(C, "<span class='warning'>[pred] is not conscious.</span>")
-					to_chat(pred, "<span class='warning'>You must be conscious to accept.</span>")
 					return
 				if(!(pred.z in using_map.vorespawn_levels))
 					to_chat(C, "<span class='warning'>[pred] is no longer in station grounds.</span>")
@@ -711,8 +699,6 @@ var/global/datum/controller/occupations/job_master
 					return
 				if(backup)
 					addtimer(CALLBACK(src, .proc/m_backup_client, C), 5 SECONDS)
-				log_admin("[key_name(C)] has vore spawned into [key_name(pred)]")
-				message_admins("[key_name(C)] has vore spawned into [key_name(pred)]")
 				to_chat(C, "<span class='notice'>You have been spawned via vore. You are free to roleplay how you got there as you please, such as teleportation or having had already been there.</span>")
 				to_chat(pred, "<span class='notice'>Your prey has spawned via vore. You are free to roleplay this how you please, such as teleportation or having had already been there.</span>")
 			else
