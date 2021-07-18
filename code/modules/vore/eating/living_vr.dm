@@ -5,7 +5,7 @@
 	var/feeding = TRUE					// Can the mob be vorishly force fed or fed to others?
 	var/absorbable = TRUE				// Are you allowed to absorb this person?
 	var/resizable = TRUE				// Can other people resize you? (Usually ignored for self-resizes)
-	var/digest_leave_remains = FALSE	// Will this mob leave bones/skull/etc after the melty demise?
+	var/digest_leave_remains = TRUE	// Will this mob leave bones/skull/etc after the melty demise?
 	var/allowmobvore = TRUE				// Will simplemobs attempt to eat the mob?
 	var/showvoreprefs = TRUE			// Determines if the mechanical vore preferences button will be displayed on the mob or not.
 	var/obj/belly/vore_selected			// Default to no vore capability.
@@ -26,16 +26,16 @@
 	var/drain_finalized = 0				// Determines if the succubus drain will be KO'd/absorbed. Can be toggled on at any time.
 	var/fuzzy = 0						// Preference toggle for sharp/fuzzy icon.
 	var/permit_healbelly = TRUE
-	var/can_be_drop_prey = FALSE
+	var/can_be_drop_prey = TRUE
 	var/can_be_drop_pred = TRUE			// Mobs are pred by default.
 	var/allow_spontaneous_tf = FALSE	// Obviously.
 	var/next_preyloop					// For Fancy sound internal loop
-	var/adminbus_trash = FALSE			// For abusing trash eater for event shenanigans.
+	var/adminbus_trash = TRUE			// For abusing trash eater for event shenanigans.
 	var/adminbus_eat_minerals = FALSE	// This creature subsists on a diet of pure adminium.
 	var/vis_height = 32					// Sprite height used for resize features.
 	var/show_vore_fx = TRUE				// Show belly fullscreens
-	var/latejoin_vore = FALSE			//CHOMPedit: If enabled, latejoiners can spawn into this, assuming they have a client
-	var/noisy_full = FALSE				//CHOMPEdit: Enables belching when a mob has overeaten
+	var/latejoin_vore = TRUE			//CHOMPedit: If enabled, latejoiners can spawn into this, assuming they have a client
+	var/noisy_full = TRUE				//CHOMPEdit: Enables belching when a mob has overeaten
 
 //
 // Hook for generic creation of stuff on new creatures
@@ -44,6 +44,9 @@
 	M.verbs += /mob/living/proc/escapeOOC
 	M.verbs += /mob/living/proc/lick
 	M.verbs += /mob/living/proc/smell
+	M.verbs += /mob/living/proc/feed_grabbed_to_self
+	M.verbs += /mob/living/proc/feed_self_to_grabbed
+	M.verbs += /mob/living/proc/feed_grabbed_to_other
 	M.verbs += /mob/living/proc/switch_scaling
 	M.verbs += /mob/living/proc/vorebelly_printout
 	if(M.no_vore) //If the mob isn't supposed to have a stomach, let's not give it an insidepanel so it can make one for itself, or a stomach.
@@ -439,9 +442,6 @@
 		absorbed = 0	//Make sure we're not absorbed
 		muffled = 0		//Removes Muffling
 		forceMove(get_turf(src)) //Just move me up to the turf, let's not cascade through bellies, there's been a problem, let's just leave.
-		for(var/mob/living/simple_mob/SA in range(10))
-			SA.prey_excludes[src] = world.time
-		log_and_message_admins("[key_name(src)] used the OOC escape button to get out of [key_name(B.owner)] ([B.owner ? "<a href='?_src_=holder;adminplayerobservecoodjump=1;X=[B.owner.x];Y=[B.owner.y];Z=[B.owner.z]'>JMP</a>" : "null"])")
 
 		if(!ishuman(B.owner))
 			B.owner.update_icons()
