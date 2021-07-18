@@ -11,7 +11,7 @@
 	var/pass_flags = 0
 	var/throwpass = 0
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
-	var/simulated = 1 //filter for actions - used by lighting overlays
+	var/simulated = TRUE //filter for actions - used by lighting overlays
 	var/atom_say_verb = "says"
 	var/bubble_icon = "normal" ///what icon the atom uses for speechbubbles
 	var/fluorescent // Shows up under a UV light.
@@ -83,9 +83,9 @@
 // Must return an Initialize hint. Defined in code/__defines/subsystems.dm
 /atom/proc/Initialize(mapload, ...)
 	if(QDELETED(src))
-		crash_with("GC: -- [type] had initialize() called after qdel() --")
+		stack_trace("GC: -- [type] had initialize() called after qdel() --")
 	if(initialized)
-		crash_with("Warning: [src]([type]) initialized multiple times!")
+		stack_trace("Warning: [src]([type]) initialized multiple times!")
 	initialized = TRUE
 	return INITIALIZE_HINT_NORMAL
 
@@ -454,7 +454,7 @@
 	if(!blood_DNA || !istype(blood_DNA, /list))	//if our list of DNA doesn't exist yet (or isn't a list) initialise it.
 		blood_DNA = list()
 
-	was_bloodied = 1
+	was_bloodied = TRUE
 	if(!blood_color)
 		blood_color = "#A10808"
 	if(istype(M))
@@ -648,6 +648,42 @@
 		"}
 	var/turf/T = get_turf(src)
 	. += "<br><font size='1'>[ADMIN_COORDJMP(T)]</font>"
+
+/atom/vv_edit_var(var_name, var_value)
+	switch(var_name)
+		if(NAMEOF(src, light_range))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_range = var_value)
+			else
+				set_light_range(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_power))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_power = var_value)
+			else
+				set_light_power(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_color))
+			if(light_system == STATIC_LIGHT)
+				set_light(l_color = var_value)
+			else
+				set_light_color(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_on))
+			set_light_on(var_value)
+			. =  TRUE
+		if(NAMEOF(src, light_flags))
+			set_light_flags(var_value)
+			. =  TRUE
+		if(NAMEOF(src, opacity))
+			set_opacity(var_value)
+			. =  TRUE
+
+	if(!isnull(.))
+		datum_flags |= DF_VAR_EDITED
+		return
+		
+	. = ..()
 
 /atom/proc/atom_say(message)
 	if(!message)

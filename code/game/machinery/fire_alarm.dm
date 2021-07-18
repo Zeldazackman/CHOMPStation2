@@ -8,18 +8,19 @@ FIRE ALARM
 	icon_state = "fire"
 	layer = ABOVE_WINDOW_LAYER
 	blocks_emissive = FALSE
+	vis_flags = VIS_HIDE // They have an emissive that looks bad in openspace due to their wall-mounted nature
 	var/detecting = 1.0
 	var/working = 1.0
 	var/time = 10.0
 	var/timing = 0.0
 	var/lockdownbyai = 0
-	anchored = 1.0
+	anchored = TRUE
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 2
 	active_power_usage = 6
 	power_channel = ENVIRON
 	var/last_process = 0
-	panel_open = 0
+	panel_open = FALSE
 	var/seclevel
 	circuit = /obj/item/weapon/circuitboard/firealarm
 	var/alarms_hidden = FALSE //If the alarms from this machine are visible on consoles
@@ -186,7 +187,7 @@ Just a object used in constructing fire alarms
 	icon_state = "door_electronics"
 	desc = "A circuit. It has a label on it, it says \"Can handle heat levels up to 40 degrees celsius!\""
 	w_class = ITEMSIZE_SMALL
-	matter = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
+	matter = list(MAT_STEEL = 50, MAT_GLASS = 50)
 */
 /obj/machinery/partyalarm
 	name = "\improper PARTY BUTTON"
@@ -198,7 +199,7 @@ Just a object used in constructing fire alarms
 	var/time = 10.0
 	var/timing = 0.0
 	var/lockdownbyai = 0
-	anchored = 1.0
+	anchored = TRUE
 	use_power = USE_POWER_IDLE
 	idle_power_usage = 2
 	active_power_usage = 6

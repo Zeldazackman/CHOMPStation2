@@ -2,13 +2,13 @@
 	name = "window"
 	desc = "A window."
 	icon = 'icons/obj/structures_vr.dmi' // VOREStation Edit - New icons
-	density = 1
+	density = TRUE
 	can_atmos_pass = ATMOS_PASS_PROC
 	w_class = ITEMSIZE_NORMAL
 
 	layer = WINDOW_LAYER
 	pressure_resistance = 4*ONE_ATMOSPHERE
-	anchored = 1.0
+	anchored = TRUE
 	flags = ON_BORDER
 	var/maxhealth = 14.0
 	var/maximal_heat = T0C + 100 		// Maximal heat before this window begins taking damage from fire
@@ -167,7 +167,7 @@
 		tforce = I.throwforce
 	if(reinf) tforce *= 0.25
 	if(health - tforce <= 7 && !reinf)
-		anchored = 0
+		anchored = FALSE
 		update_verbs()
 		update_nearby_icons()
 		step(src, get_dir(AM, src))
@@ -215,7 +215,7 @@
 			damage = damage / 2
 		take_damage(damage)
 	else
-		visible_message("<span class='notice'>\The [user] bonks \the [src] harmlessly.</span>")
+		visible_message("<b>\The [user]</b> bonks \the [src] harmlessly.")
 	user.do_attack_animation(src)
 	return 1
 
@@ -302,7 +302,7 @@
 		if (C.use(1))
 			playsound(src, 'sound/effects/sparks1.ogg', 75, 1)
 			user.visible_message( \
-				"<span class='notice'>\The [user] begins to wire \the [src] for electrochromic tinting.</span>", \
+				"<b>\The [user]</b> begins to wire \the [src] for electrochromic tinting.", \
 				"<span class='notice'>You begin to wire \the [src] for electrochromic tinting.</span>", \
 				"You hear sparks.")
 			if(do_after(user, 20 * C.toolspeed, src) && state == 0)
@@ -325,7 +325,7 @@
 			user.do_attack_animation(src)
 			hit(W.force)
 			if(health <= 7)
-				anchored = 0
+				anchored = FALSE
 				update_nearby_icons()
 				step(src, get_dir(user, src))
 		else
@@ -392,7 +392,7 @@
 
 	//player-constructed windows
 	if (constructed)
-		anchored = 0
+		anchored = FALSE
 		state = 0
 		update_verbs()
 
@@ -405,7 +405,7 @@
 
 
 /obj/structure/window/Destroy()
-	density = 0
+	density = FALSE
 	update_nearby_tiles()
 	var/turf/location = loc
 	. = ..()

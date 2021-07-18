@@ -81,11 +81,12 @@ GLOBAL_LIST_EMPTY(apcs)
 	icon = 'icons/obj/power.dmi'
 	icon_state = "apc0"
 	layer = ABOVE_WINDOW_LAYER
-	anchored = 1
+	anchored = TRUE
 	use_power = USE_POWER_OFF
 	clicksound = "switch"
 	req_access = list(access_engine_equip)
 	blocks_emissive = FALSE
+	vis_flags = VIS_HIDE // They have an emissive that looks bad in openspace due to their wall-mounted nature
 	var/area/area
 	var/areastring = null
 	var/obj/item/weapon/cell/cell
